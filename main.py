@@ -73,7 +73,19 @@ for key, default in SESSION_DEFAULTS.items():
         st.session_state[key] = default
 
 # 获取 DeepSeek API Key
-deepseek_api_key = st.text_input("输入 DeepSeek API Key（用于调用 DeepSeek Chat 模型）", type="password")
+# API 提供商选择
+api_provider = st.radio(
+    "API 提供商",
+    options=["deepseek", "bailian"],
+    format_func=lambda x: {"deepseek": "DeepSeek 官方 API", "bailian": "阿里云百炼平台"}[x],
+    horizontal=True,
+)
+
+key_label = {
+    "deepseek": "输入 DeepSeek API Key（platform.deepseek.com）",
+    "bailian": "输入阿里云百炼 API Key（bailian.console.aliyun.com）",
+}[api_provider]
+deepseek_api_key = st.text_input(key_label, type="password")
 
 # 用户输入
 disabled = st.session_state.generating
@@ -99,8 +111,8 @@ if not can_generate and not st.session_state.generating:
 
 if can_generate:
     # 创建 Agent
-    researcher = create_researcher(deepseek_api_key, num_people, budget_per_person, total_budget)
-    planner = create_planner(deepseek_api_key, num_people, budget_per_person, total_budget)
+    researcher = create_researcher(deepseek_api_key, api_provider, num_people, budget_per_person, total_budget)
+    planner = create_planner(deepseek_api_key, api_provider, num_people, budget_per_person, total_budget)
 
     # 生成行程按钮
     if st.button("生成行程", type="primary"):

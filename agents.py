@@ -5,16 +5,40 @@ from agno.models.deepseek import DeepSeek
 from agno.tools.baidusearch import BaiduSearchTools
 
 
-def create_researcher(api_key: str, num_people: int, budget_per_person: int, total_budget: int) -> Agent:
+# API 提供商配置
+API_PROVIDERS = {
+    "deepseek": {
+        "label": "DeepSeek 官方 API",
+        "base_url": None,  # 使用默认值 https://api.deepseek.com
+        "model_id": "deepseek-chat",
+    },
+    "bailian": {
+        "label": "阿里云百炼平台",
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "model_id": "deepseek-v4-flash",
+    },
+}
+
+
+def _create_deepseek_model(api_key, provider):
+    """根据提供商创建 DeepSeek 模型实例"""
+    config = API_PROVIDERS[provider]
+    kwargs = {
+        "id": config["model_id"],
+        "api_key": api_key,
+        "use_thinking": True,
+    }
+    if config["base_url"]:
+        kwargs["base_url"] = config["base_url"]
+    return DeepSeek(**kwargs)
+
+
+def create_researcher(api_key, provider, num_people, budget_per_person, total_budget):
     return Agent(
         name="Researcher",
         role="搜索旅行目的地、活动和住宿信息",
-        model=DeepSeek(
-            id="deepseek-chat",
-            api_key=api_key,
-            use_thinking=True,
-        ),
-        description=dedent("""\
+        model=_create_deepseek_model(api_key, provider),
+        description=dedent("""\\
             根据用户输入的目的地和旅行天数，搜索相关旅行活动和住宿信息，
             返回最相关的 10 条结果。
         """),
@@ -30,16 +54,12 @@ def create_researcher(api_key: str, num_people: int, budget_per_person: int, tot
     )
 
 
-def create_planner(api_key: str, num_people: int, budget_per_person: int, total_budget: int) -> Agent:
+def create_planner(api_key, provider, num_people, budget_per_person, total_budget):
     return Agent(
         name="Planner",
         role="根据用户偏好和研究结果生成行程计划",
-        model=DeepSeek(
-            id="deepseek-chat",
-            api_key=api_key,
-            use_thinking=True,
-        ),
-        description=dedent("""\
+        model=_create_deepseek_model(api_key, provider),
+        description=dedent("""\\
             根据用户输入的目的地、旅行天数和研究结果，
             生成一份详细的行程计划。
         """),

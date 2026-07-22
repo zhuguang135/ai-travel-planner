@@ -13,7 +13,7 @@ def render_sidebar() -> dict:
         budget_per_person = st.number_input("人均预算（元）", min_value=0, max_value=100000, step=100, value=3000)
         num_people = st.number_input("人数", min_value=1, max_value=20, value=2)
         total_budget = budget_per_person * num_people
-        dark_mode = st.toggle("暗色模式", value=False)
+        dark_mode = st.toggle("暗色模式", value=True)
 
         st.divider()
         departure_date = st.date_input("出发日期", value=datetime.today() + timedelta(days=7))
