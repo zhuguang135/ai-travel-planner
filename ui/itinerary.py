@@ -1,6 +1,6 @@
 """行程展示区域"""
 import streamlit as st
-from utils.export import generate_html_content, generate_ics_content, parse_days
+from utils.export import generate_html_content, generate_ics_content
 from utils.poi import extract_pois, render_poi_links
 
 

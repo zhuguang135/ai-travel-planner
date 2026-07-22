@@ -88,28 +88,16 @@ def _ends_with_poi_suffix(name: str) -> bool:
     return False
 
 
-def _starts_with_verb(name: str) -> bool:
-    """检查名称是否以动词开头（逗号规则排除动词前缀）"""
-    # 检查前 2 个字符是否是动词（双字动词优先）
-    if len(name) >= 2:
-        two = name[:2]
-        if re.match(rf'^(?:{ACTION_VERBS})', two):
-            return True
-    # 检查单字动词
-    if re.match(rf'^(?:{ACTION_VERBS})', name[0]):
+def _starts_with_pattern(name: str, pattern: str) -> bool:
+    """检查名称是否以指定模式开头"""
+    if len(name) >= 2 and re.match(rf'^(?:{pattern})', name[:2]):
+        return True
+    if re.match(rf'^(?:{pattern})', name[0]):
         return True
     return False
 
-
-def _starts_with_directional(name: str) -> bool:
-    """检查名称是否以趋向补语开头（动词规则排除补语）"""
-    if len(name) >= 2:
-        two = name[:2]
-        if re.match(rf'^(?:{_DIRECTIONAL})', two):
-            return True
-    if re.match(rf'^(?:{_DIRECTIONAL})', name[0]):
-        return True
-    return False
+_starts_with_verb = lambda n: _starts_with_pattern(n, ACTION_VERBS)
+_starts_with_directional = lambda n: _starts_with_pattern(n, _DIRECTIONAL)
 
 
 def _is_valid_attraction(name: str) -> bool:
@@ -121,6 +109,11 @@ def _is_valid_attraction(name: str) -> bool:
     if name in EXCLUDE_WORDS:
         return False
     return True
+
+
+def _is_substring_of_any(name: str, candidates: list[str]) -> bool:
+    """检查 name 是否是 candidates 中某个名称的子串"""
+    return any(name in existing for existing in candidates)
 
 
 def extract_pois(text: str, destination: str = "") -> list[str]:
@@ -158,12 +151,7 @@ def extract_pois(text: str, destination: str = "") -> list[str]:
         if not _ends_with_poi_suffix(name):
             continue
         # 避免子串重复
-        is_substring = False
-        for existing in pois:
-            if name in existing:
-                is_substring = True
-                break
-        if is_substring:
+        if _is_substring_of_any(name, pois):
             continue
         seen.add(name)
         pois.append(name)
@@ -179,12 +167,7 @@ def extract_pois(text: str, destination: str = "") -> list[str]:
         if name in seen:
             continue
         # 避免子串重复
-        is_substring = False
-        for existing in pois:
-            if name in existing:
-                is_substring = True
-                break
-        if is_substring:
+        if _is_substring_of_any(name, pois):
             continue
         seen.add(name)
         pois.append(name)
@@ -216,13 +199,8 @@ def extract_pois(text: str, destination: str = "") -> list[str]:
         # 不能包含动词（如"午参观故宫博物院"含"参观"）
         if re.search(rf'(?:{ACTION_VERBS})', name):
             continue
-        # 避免子串重复：如果已有更长的POI包含此名称，跳过
-        is_substring = False
-        for existing in pois:
-            if name in existing:
-                is_substring = True
-                break
-        if is_substring:
+        # 避免子串重复
+        if _is_substring_of_any(name, pois):
             continue
         seen.add(name)
         pois.append(name)
