@@ -1,4 +1,7 @@
-"""Agent 定义（Researcher + Planner）"""
+"""Agent 定义（Researcher + Planner）
+
+两个函数均接受 provider 参数以支持 DeepSeek 官方 API 或阿里云百炼平台。
+"""
 from textwrap import dedent
 from agno.agent import Agent
 from agno.models.deepseek import DeepSeek
