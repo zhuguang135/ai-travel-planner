@@ -73,7 +73,7 @@ for key, default in SESSION_DEFAULTS.items():
         st.session_state[key] = default
 
 # 获取 DeepSeek API Key
-deepseek_api_key = st.text_input("输入阿里云百炼 API Key（用于调用 DeepSeek V4 模型）", type="password")
+deepseek_api_key = st.text_input("输入 DeepSeek API Key（用于调用 DeepSeek Chat 模型）", type="password")
 
 # 用户输入
 disabled = st.session_state.generating

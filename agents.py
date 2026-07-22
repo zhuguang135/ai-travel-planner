@@ -4,18 +4,14 @@ from agno.agent import Agent
 from agno.models.deepseek import DeepSeek
 from agno.tools.baidusearch import BaiduSearchTools
 
-# 阿里云百炼平台 DeepSeek API 端点
-BAILIAN_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-
 
 def create_researcher(api_key: str, num_people: int, budget_per_person: int, total_budget: int) -> Agent:
     return Agent(
         name="Researcher",
         role="搜索旅行目的地、活动和住宿信息",
         model=DeepSeek(
-            id="deepseek-v4-flash",
+            id="deepseek-chat",
             api_key=api_key,
-            base_url=BAILIAN_BASE_URL,
             use_thinking=True,
         ),
         description=dedent("""\
@@ -39,9 +35,8 @@ def create_planner(api_key: str, num_people: int, budget_per_person: int, total_
         name="Planner",
         role="根据用户偏好和研究结果生成行程计划",
         model=DeepSeek(
-            id="deepseek-v4-flash",
+            id="deepseek-chat",
             api_key=api_key,
-            base_url=BAILIAN_BASE_URL,
             use_thinking=True,
         ),
         description=dedent("""\

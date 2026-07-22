@@ -1,6 +1,6 @@
 # 逐光 — AI 旅行规划师
 
-> 基于 DeepSeek V4 + 百度搜索的智能行程规划工具，输入目的地和天数，AI 自动生成完整旅行计划。
+> 基于 DeepSeek Chat + 百度搜索的智能行程规划工具，输入目的地和天数，AI 自动生成完整旅行计划。
 >
 > 本项目基于 [Shubhamsaboo/awesome-llm-apps](https://github.com/Shubhamsaboo/awesome-llm-apps) 的 AI Travel Agent 修改扩展，感谢原项目。
 
@@ -12,7 +12,7 @@
 |------|------|
 | **双 Agent 架构** | Researcher 搜索目的地信息 + Planner 生成行程，分工协作 |
 | **AI 搜索引擎** | 基于百度搜索，实时获取景点、活动、住宿信息 |
-| **DeepSeek V4** | 通过阿里云百炼平台调用原生 DeepSeek-V4-Flash 模型 |
+| **DeepSeek Chat** | 通过 DeepSeek 官方 API 调用 DeepSeek Chat 模型 |
 | **流式输出** | 搜索和生成过程实时显示，所见即所得 |
 | **多目的地** | 支持一次规划多个城市，AI 自动分配天数和预算 |
 | **出发地** | 包含从出发地到目的地的交通建议和费用预估 |
@@ -30,7 +30,7 @@
 
 - **前端框架:** [Streamlit](https://streamlit.io/)
 - **AI 框架:** [agno](https://github.com/agno-agi/agno)
-- **模型:** DeepSeek-V4-Flash（阿里云百炼平台）
+- **模型:** DeepSeek Chat（DeepSeek 官方 API）
 - **搜索工具:** 百度搜索 API
 - **语言:** 全中文界面
 
@@ -56,10 +56,10 @@ streamlit run main.py
 
 ### 获取 API Key
 
-本应用需要**阿里云百炼平台**的 API Key：
+本应用需要 **DeepSeek 官方 API Key**：
 
-1. 访问 [阿里云百炼平台](https://bailian.console.aliyun.com/)
-2. 开通服务并创建 API Key
+1. 访问 [DeepSeek 开发者平台](https://platform.deepseek.com/)
+2. 注册账号并创建 API Key
 3. 在应用界面中输入 API Key 即可使用
 
 ## 使用方式
