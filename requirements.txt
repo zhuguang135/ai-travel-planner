@@ -4,3 +4,4 @@ openai
 google-search-results
 icalendar
 baidusearch
+pycountry
