@@ -40,16 +40,15 @@ def create_researcher(api_key, provider, num_people, budget_per_person, total_bu
         name="Researcher",
         role="搜索旅行目的地、活动和住宿信息",
         model=_create_deepseek_model(api_key, provider),
-        reasoning=True,
-        tool_call_limit=6,
+        tool_call_limit=3,
         description=dedent("""\
-            为旅行目的地收集足够的信息，可以多次搜索补充。
-            当信息足够制定完整行程时，输出结构化的信息汇总。
+            为旅行目的地收集关键信息，尽量在一次搜索中覆盖多个方面。
+            如果信息不足再补充搜索，最多 3 次。
         """),
         instructions=[
             "你的任务是收集目的地旅行的关键信息。",
-            "可以多次调用百度搜索，每次搜索后评估信息是否足够。",
-            "如果缺少景点、美食、交通、住宿等某方面信息，继续搜索补充。",
+            "每次搜索尽量用多个关键词覆盖不同方面（景点、美食、交通、住宿）。",
+            "如果搜索后仍有明显的信息缺口，再补充搜索。",
             "目的地可能有多个（用逗号分隔），覆盖每个目的地。",
             "目的地均为中国国内城市，只搜索和推荐中国境内信息。",
             _budget_info(num_people, budget_per_person, total_budget),
