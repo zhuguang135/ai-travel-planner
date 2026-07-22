@@ -1,6 +1,6 @@
 # 逐光 — AI 旅行规划师
 
-> 基于 DeepSeek V4 + 百度搜索的智能行程规划工具，输入目的地和天数，AI 自动生成完整旅行计划。
+> 基于 DeepSeek V4 Flash + 百度搜索的智能行程规划工具，输入目的地和天数，AI 自动生成完整旅行计划。
 >
 > 本项目基于 [Shubhamsaboo/awesome-llm-apps](https://github.com/Shubhamsaboo/awesome-llm-apps) 的 AI Travel Agent 修改扩展，感谢原项目。
 
@@ -12,8 +12,9 @@
 |------|------|
 | **双 Agent 架构** | Researcher 搜索目的地信息 + Planner 生成行程，分工协作 |
 | **AI 搜索引擎** | 基于百度搜索，实时获取景点、活动、住宿信息 |
-| **DeepSeek V4** | 通过阿里云百炼平台调用原生 DeepSeek-V4-Flash 模型 |
-| **API 提供商选择** | DeepSeek / 阿里云百炼，一键切换 |
+| **DeepSeek V4 Flash** | 支持 DeepSeek 官方 API 和阿里云百炼平台，均可调用 V4 Flash 模型 |
+| **API 提供商选择** | DeepSeek 官方 API / 阿里云百炼平台，一键切换，API Key 提示自动联动 |
+| **流式输出** | 搜索和生成过程实时显示，所见即所得 |
 | **多目的地** | 支持一次规划多个城市，AI 自动分配天数和预算 |
 | **出发地** | 包含从出发地到目的地的交通建议和费用预估 |
 | **多人预算** | 设置人数和人均预算，AI 智能分配花费 |
@@ -30,7 +31,7 @@
 
 - **前端框架:** [Streamlit](https://streamlit.io/)
 - **AI 框架:** [agno](https://github.com/agno-agi/agno)
-- **模型:** DeepSeek-V4-Flash（阿里云百炼平台）
+- **模型:** DeepSeek V4 Flash（DeepSeek 官方 API / 阿里云百炼平台）
 - **搜索工具:** 百度搜索 API
 - **语言:** 全中文界面
 
@@ -51,24 +52,24 @@ streamlit run main.py
 1. 将本仓库 Fork 或推送到你的 GitHub
 2. 打开 [share.streamlit.io](https://share.streamlit.io)
 3. 点击 **New app**，选择本仓库
-4. **Branch:** `master`，**Main file path:** `main.py`
+4. **Branch:** `main`，**Main file path:** `main.py`
 5. 点击 **Deploy**，约 2 分钟即获得公网链接
 
 ### 获取 API Key
 
-本应用需要**阿里云百炼平台**的 API Key：
+本应用支持 **DeepSeek 官方 API** 和 **阿里云百炼平台** 两种方式，在界面中一键切换：
 
-1. 访问 [阿里云百炼平台](https://bailian.console.aliyun.com/)
-2. 开通服务并创建 API Key
-3. 在应用界面中输入 API Key 即可使用
+- **DeepSeek 官方 API**：访问 [platform.deepseek.com](https://platform.deepseek.com/) 注册并创建 API Key
+- **阿里云百炼平台**：访问 [bailian.console.aliyun.com](https://bailian.console.aliyun.com/) 开通服务并创建 API Key
 
 ## 使用方式
 
-1. 在侧边栏设置预算、人数、出发日期
-2. 输入出发地和目的地（支持多个城市，用逗号分隔）
-3. 设置旅行天数
-4. 点击"生成行程"，等待 AI 搜索和规划
-5. 生成后可按天重新生成，或下载 HTML/ICS
+1. 选择 API 提供商（DeepSeek 官方 API 或阿里云百炼平台），输入对应的 API Key
+2. 在侧边栏设置预算、人数、出发日期
+3. 输入出发地和目的地（支持多个城市，用逗号分隔）
+4. 设置旅行天数
+5. 点击"生成行程"，等待 AI 搜索和规划
+6. 生成后可按天重新生成，或下载 HTML/ICS
 
 ## 项目结构
 
